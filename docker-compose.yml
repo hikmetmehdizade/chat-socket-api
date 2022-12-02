@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  mongo-db:
+    image: mongo:5.0.14
+    container_name: mongo-socket-db
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_DATABASE=$MONGO_DB_NAME
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_DB_PASSWORD
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    networks:
+      - chat-network
+    volumes:
+      - db:/data/db
+
+  socket-api:
+    user: node
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/socket-api
+    container_name: socket-api
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - PORT=$NODE_LOCAL_PORT
+      - DB_HOST=mongo-db
+      - DB_USER=$MONGO_DB_USER
+      - DB_PASSWORD=$MONGO_DB_PASSWORD
+      - DB_NAME=$MONGO_DB_NAME
+      - DB_PORT=$MONGODB_DOCKER_PORT
+      - MONGO_DB_URL=mongodb://$MONGO_DB_USER:$MONGO_DB_PASSWORD@mongo-db:$MONGODB_DOCKER_PORT/$MONGO_DB_NAME?authSource=admin
+    command: [ 'npm', 'run', 'start:dev' ]
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    networks:
+      - chat-network
+    depends_on:
+      - mongo-db
+
+networks:
+  chat-network:
+    driver: bridge
+
+volumes:
+  db:

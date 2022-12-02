@@ -1,0 +1,8 @@
+node_modules
+dist
+build
+.gitignore
+.env
+.git
+run.sh
+.env.exemple
