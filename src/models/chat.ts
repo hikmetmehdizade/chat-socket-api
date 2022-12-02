@@ -1,9 +1,16 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Types, SchemaTypes } from "mongoose";
 
 const chatSchema = new Schema(
   {
     title: {
-      type: String,
+      type: SchemaTypes.String,
+    },
+    isGroup: {
+      type: SchemaTypes.Boolean,
+      default: false,
+    },
+    workspaceId: {
+      type: SchemaTypes.UUID,
     },
     messages: [
       {
@@ -19,6 +26,7 @@ const chatSchema = new Schema(
     ],
   },
   {
+    _id: true,
     timestamps: {
       createdAt: true,
       updatedAt: true,
@@ -26,10 +34,8 @@ const chatSchema = new Schema(
   }
 );
 
-chatSchema.pre('save', (next) => {
-    
-    
-    next()
-})
+chatSchema.pre("save", (next) => {
+  next();
+});
 
 export default model("Chat", chatSchema);

@@ -17,8 +17,11 @@ app.get("/", (_: Request, res: Response) => {
 const server = createServer(app);
 
 const io = new Server(server, {
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   path: "/socket",
+  cors: {
+    origin: ["http://localhost:3000/"],
+  },
 });
 
 recursive(`${__dirname}/sockets`, [], (err, files) => {
@@ -31,6 +34,11 @@ recursive(`${__dirname}/sockets`, [], (err, files) => {
       });
     }
   })(files);
+});
+
+io.use((socket, next) => {
+  console.log("Auth", socket.handshake.auth);
+  next();
 });
 
 io.on(SocketEvents.connection, (socket) => {

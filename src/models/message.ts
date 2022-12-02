@@ -10,7 +10,7 @@ const messageSchema = new Schema(
     },
     createdBy: {
       type: Types.ObjectId,
-      ref: Member,
+      ref: "Member",
     },
     chat: {
       type: Types.ObjectId,
@@ -18,6 +18,7 @@ const messageSchema = new Schema(
     },
   },
   {
+    _id: true,
     timestamps: {
       createdAt: true,
       updatedAt: true,

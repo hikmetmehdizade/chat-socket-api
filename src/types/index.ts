@@ -13,3 +13,4 @@ export type SocketFunc = (
 
 
 export {SocketEvents} from './events'
+export * from './inputs'

@@ -2,15 +2,17 @@ import mongoose, { SchemaTypes, Types } from "mongoose";
 
 const memberSchema = new mongoose.Schema(
   {
-    name: {
-      type: SchemaTypes.String,
+    userId: {
+      type: SchemaTypes.UUID,
     },
-    chats: [
-      {
-        type: Types.ObjectId,
-        ref: "Chat",
-      },
-    ],
+    isAdmin: {
+      type: SchemaTypes.Boolean,
+      default: false,
+    },
+    chat: {
+      type: Types.ObjectId,
+      ref: "Chat",
+    },
   },
   {
     _id: true,

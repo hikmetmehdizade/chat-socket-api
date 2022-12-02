@@ -4,7 +4,7 @@ const PORT = process.env.PORT ?? 4000;
 
 const URL = process.env.MONGO_DB_URL || "";
 
-const start = async () => {
+(async () => {
   try {
     await mongoose.connect(URL);
 
@@ -12,7 +12,4 @@ const start = async () => {
   } catch (err) {
     console.log(err);
   }
-};
-
-
-start();
+})();

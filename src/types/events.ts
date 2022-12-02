@@ -6,10 +6,13 @@ export enum SocketEvents {
   deleteChat = "chat:delete",
   getChats = "chats:get",
 
+  getMessages = 'messages:get',
   createMessage = "message:create",
   updateMessage = "message:update",
   messageDelete = "message:delete",
 
   createMember = "member:create",
   getMembers = "members:get",
+
+
 }
